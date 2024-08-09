@@ -1,0 +1,120 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(98vh - 80px);
+  font-family: BPG Arial;
+  letter-spacing: 0.02em;
+  font-style: normal;
+  font-weight: 700;
+}
+.login {
+  display: flex;
+  width: 1320px;
+  height: 550px;
+  background: #ffffff;
+  border: 2px solid #e7f2fd;
+  border-radius: 10px;
+}
+.login-logo {
+  width: 501px;
+  height: 550px;
+  left: 300px;
+  top: 246px;
+  background: #f3f9ff;
+  border-radius: 10px 0px 0px 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.login-logo p {
+  font-size: 26px;
+  line-height: 31px;
+  color: #0d66d0;
+  margin: 40px 0 58px 0;
+}
+#outer-circle {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: rgba(13, 102, 208, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#inner-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(13, 102, 208, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-fields {
+  width: calc(1320px - 501px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+form {
+  display: grid;
+  font-size: 14px;
+  color: #1b385b;
+  line-height: 22px;
+
+  position: relative;
+}
+.login-fields p {
+  text-align: center;
+  font-size: 18px;
+  color: #0d66d0;
+  margin-top: 70px;
+  margin-bottom: 46px;
+}
+input {
+  width: 485px;
+  height: 33px;
+  border: none;
+  outline: 0;
+  border-bottom: 2px solid #e7f2fd;
+  caret-color: #d0d0d0;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+#email-icon {
+  position: absolute;
+  top: 170px;
+  right: 8px;
+}
+#password-icon {
+  position: absolute;
+  top: 246px;
+  right: 8px;
+}
+.submit-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+button {
+  width: 151px;
+  height: 50px;
+  background: #0d66d0;
+  color: #ffffff;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 0;
+  font-weight: 550;
+  font-size: 14px;
+  font-family: BPG Arial;
+  letter-spacing: 0.02em;
+}
+a {
+  color: #d0d0d0;
+  color: #0d66d0; 
+  text-decoration: none;
+  cursor: pointer;
+}

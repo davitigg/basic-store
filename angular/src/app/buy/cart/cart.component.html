@@ -1,0 +1,115 @@
+<div class="card">
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <button
+        pButton
+        pRipple
+        icon="pi pi-trash"
+        class="p-button-danger"
+        (click)="deleteSelectedProducts()"
+        [disabled]="!selectedProducts || !selectedProducts.length"
+      ></button>
+    </ng-template>
+
+    <ng-template pTemplate="center">
+      <div class="flex align-items-center justify-content-between">
+        <h3 class="m-0">Your Cart</h3>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          (input)="dt.filterGlobal($any($event).target.value, 'contains')"
+          placeholder="Search..."
+        />
+      </span>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    #dt
+    [value]="products"
+    (sortFunction)="customSort($event)"
+    [customSort]="true"
+    [rows]="10"
+    [paginator]="true"
+    [globalFilterFields]="['product.name']"
+    [(selection)]="selectedProducts"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="product.name">
+          Name <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="product.price">
+          Price <p-sortIcon field="price"></p-sortIcon>
+        </th>
+        <th pSortableColumn="quantity">
+          Quantity <p-sortIcon field="quantity"></p-sortIcon>
+        </th>
+        <th pSortableColumn="sum">Sum <p-sortIcon field="sum"></p-sortIcon></th>
+        <th pSortableColumn="product.seller.email">
+          Seller <p-sortIcon field="seller"></p-sortIcon>
+        </th>
+
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="product"></p-tableCheckbox>
+        </td>
+        <td>{{ product.product.name }}</td>
+        <td>{{ product.product.price | currency : "$" }}</td>
+        <td>
+          <p-inputNumber
+            (onInput)="updateCartProduct(product, $event.value)"
+            inputStyleClass="w-3rem"
+            [ngModel]="product.quantity"
+            [allowEmpty]="false"
+            [min]="1"
+            [max]="product.quantity + product.product.quantity"
+            [step]="1"
+            [showButtons]="true"
+            buttonLayout="horizontal"
+            spinnerMode="horizontal"
+            decrementButtonClass="p-button-danger p-button-raised p-button-rounded"
+            incrementButtonClass="p-button-success p-button-raised p-button-rounded"
+            incrementButtonIcon="pi pi-plus"
+            decrementButtonIcon="pi pi-minus"
+          ></p-inputNumber>
+        </td>
+        <td>
+          {{ product.quantity * product.product.price | currency : "$" }}
+        </td>
+        <td>{{ product.product.seller.email }}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-warning"
+            (click)="deleteProduct(product)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are {{ products ? products.length : 0 }} products.
+      </div>
+    </ng-template>
+  </p-table>
+</div>

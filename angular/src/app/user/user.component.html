@@ -1,0 +1,102 @@
+<p-dialog
+  [(visible)]="userDialog"
+  (onHide)="sendNotification()"
+  [style]="{ width: '450px' }"
+  header="User Details"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label for="name">Email</label>
+      <input
+        type="email"
+        pInputText
+        [(ngModel)]="user!.email"
+        required
+        autofocus
+      />
+      <small class="p-error" *ngIf="submitted && !user!.email"
+        >Email is required.</small
+      >
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="text" pInputText [(ngModel)]="user!.password" required />
+      <small class="p-error" *ngIf="submitted && !user!.password"
+        >Password is required.</small
+      >
+    </div>
+    <div class="formgrid grid">
+      <div class="field col">
+        <label for="fistName">First Name</label>
+        <input type="text" pInputText [(ngModel)]="user!.fName" required />
+        <small class="p-error" *ngIf="submitted && !user!.fName"
+          >First Name is required.</small
+        >
+      </div>
+      <div class="field col">
+        <label for="lName">Last Name</label>
+        <input type="text" pInputText [(ngModel)]="user!.lName" required />
+        <small class="p-error" *ngIf="submitted && !user!.lName"
+          >Last Name is required.</small
+        >
+      </div>
+    </div>
+
+    <div *ngIf="!user.id" class="field">
+      <label class="mb-3">User type</label>
+      <div class="formgrid grid">
+        <div class="field-radiobutton col-6">
+          <p-radioButton
+            id="category1"
+            name="category"
+            [value]="1"
+            [(ngModel)]="user!.role"
+          ></p-radioButton>
+          <label for="category1">Buyer</label>
+        </div>
+        <div class="field-radiobutton col-6">
+          <p-radioButton
+            id="category2"
+            name="category"
+            [value]="2"
+            [(ngModel)]="user!.role"
+          ></p-radioButton>
+          <label for="category2">Seller</label>
+        </div>
+        <small class="p-error" *ngIf="submitted && user!.role < 0"
+          >Role is required.</small
+        >
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      *ngIf="user!.id"
+      pButton
+      pRipple
+      label="Delete Account"
+      icon="pi pi-trash"
+      class="p-button-text p-button-danger"
+      (click)="deleteUser(user)"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-text p-button-success"
+      (click)="saveUser(user)"
+    ></button>
+  </ng-template>
+</p-dialog>

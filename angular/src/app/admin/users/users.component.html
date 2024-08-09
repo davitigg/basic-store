@@ -1,0 +1,210 @@
+<div class="card">
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <button
+        pButton
+        pRipple
+        icon="pi pi-trash"
+        class="p-button-danger"
+        (click)="deleteSelectedUsers()"
+        [disabled]="!selectedUsers || !selectedUsers.length"
+      ></button>
+    </ng-template>
+
+    <ng-template pTemplate="center">
+      <div class="flex align-items-center justify-content-between">
+        <h3 class="m-0">Manage Users</h3>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          (input)="dt.filterGlobal($any($event).target.value, 'contains')"
+          placeholder="Search..."
+        />
+      </span>
+    </ng-template>
+  </p-toolbar>
+  <p-table
+    #dt
+    [value]="users"
+    [rows]="10"
+    [paginator]="true"
+    [globalFilterFields]="['email', 'fName', 'lName', 'password']"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [(selection)]="selectedUsers"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="email">
+          Email <p-sortIcon field="email"></p-sortIcon>
+        </th>
+        <th pSortableColumn="password">
+          Password <p-sortIcon field="password"></p-sortIcon>
+        </th>
+        <th pSortableColumn="fName">
+          First Name <p-sortIcon field="fName"></p-sortIcon>
+        </th>
+        <th pSortableColumn="lName">
+          Last Name <p-sortIcon field="lName"></p-sortIcon>
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="user"></p-tableCheckbox>
+        </td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.password }}</td>
+        <td>{{ user.fName }}</td>
+        <td>{{ user.lName }}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-table"
+            class="p-button-rounded p-button-info mr-2"
+            (click)="displayUserProducts(user)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success mr-2"
+            (click)="editUser(user)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-warning"
+            (click)="deleteUser(user)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are {{ users ? users.length : 0 }} users.
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  [(visible)]="userDialog"
+  [style]="{ width: '450px' }"
+  header="User Details"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label for="name">Email</label>
+      <input
+        type="email"
+        pInputText
+        [(ngModel)]="user!.email"
+        required
+        autofocus
+      />
+      <small class="p-error" *ngIf="submitted && !user!.email"
+        >Email is required.</small
+      >
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="text" pInputText [(ngModel)]="user!.password" required />
+      <small class="p-error" *ngIf="submitted && !user!.password"
+        >Password is required.</small
+      >
+    </div>
+    <div class="formgrid grid">
+      <div class="field col">
+        <label for="fistName">First Name</label>
+        <input type="text" pInputText [(ngModel)]="user!.fName" required />
+        <small class="p-error" *ngIf="submitted && !user!.fName"
+          >First Name is required.</small
+        >
+      </div>
+      <div class="field col">
+        <label for="lName">Last Name</label>
+        <input type="text" pInputText [(ngModel)]="user!.lName" required />
+        <small class="p-error" *ngIf="submitted && !user!.lName"
+          >Last Name is required.</small
+        >
+      </div>
+    </div>
+    <div class="field">
+      <label class="mb-3">User type</label>
+      <div class="formgrid grid">
+        <div class="field-radiobutton col-6">
+          <p-radioButton
+            id="category1"
+            name="category"
+            [value]="1"
+            [(ngModel)]="user!.role"
+          ></p-radioButton>
+          <label for="category1">Buyer</label>
+        </div>
+        <div class="field-radiobutton col-6">
+          <p-radioButton
+            id="category2"
+            name="category"
+            [value]="2"
+            [(ngModel)]="user!.role"
+          ></p-radioButton>
+          <label for="category2">Seller</label>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="saveUser(user!)"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="productDialog"
+  [style]="{ width: '70vw', height: '70vh' }"
+  header="User's Products"
+  [modal]="true"
+  styleClass="p-fluid"
+  [maximizable]="true"
+>
+  <app-buy *ngIf="userRole == 1 && productDialog" [userId]="user!.id"></app-buy>
+
+  <app-sell
+    *ngIf="userRole == 2 && productDialog"
+    [userId]="user!.id"
+  ></app-sell>
+</p-dialog>

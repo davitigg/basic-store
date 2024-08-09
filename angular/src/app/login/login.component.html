@@ -1,0 +1,28 @@
+<div class="login">
+  <div class="login-logo">
+    <p>ავტორიზაცია</p>
+    <div id="outer-circle">
+      <div id="inner-circle">
+        <img src="assets\login-icon.svg" />
+      </div>
+    </div>
+  </div>
+  <div class="login-fields">
+    <form [formGroup]="form" (ngSubmit)="login(form)">
+      <p>შეიყვანეთ თქვენი მონაცემები</p>
+      თქვენი ელ-ფოსტა
+      <input [formControlName]="'email'" type="email" maxlength="50" />
+      <img id="email-icon" src="assets\email-icon.svg" />
+      პაროლი
+      <input [formControlName]="'password'" type="password" maxlength="50" />
+      <img id="password-icon" src="assets\password-icon.svg" />
+
+      <div class="submit-panel">
+        <button type="submit" class="btn-login">შესვლა</button>
+        <a (click)="registerUser()">რეგისტრაცია</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<app-user [(userDialog)]="userDialogToggle"></app-user>

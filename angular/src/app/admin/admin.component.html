@@ -1,0 +1,8 @@
+<p-tabView (onChange)="handleChange($event)">
+  <p-tabPanel header="Buyers" headerStyleClass="text-2xl" [selected]="true">
+    <app-users *ngIf="index == 0" [userRole]="1"></app-users>
+  </p-tabPanel>
+  <p-tabPanel header="Sellers" headerStyleClass="text-2xl">
+    <app-users *ngIf="index == 1" [userRole]="2"></app-users>
+  </p-tabPanel>
+</p-tabView>
